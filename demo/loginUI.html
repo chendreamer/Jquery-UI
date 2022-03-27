@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一款好看的登录界面</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+
+    <form class="login-form">
+        <h1>Login</h1>
+
+        <div class="txtb">
+            <input type="text">
+            <span data-placeholder="Username"></span>
+        </div>
+
+        <div class="txtb">
+            <input type="password">
+            <span data-placeholder="Password"></span>
+        </div>
+
+        <input type="submit" value="login" class="logbtn">
+
+        <div class="bottom-text">
+            Don't have a account?<a href="#">Sign Up</a>
+        </div>
+
+    </form>
+
+
+    <script src="../lib/common/js/jquery-3.6.min.js"></script>
+    <script>
+        $('.txtb input').on('focus', function () {
+            $(this).addClass('focus');
+        }).on('blur', function () {
+            if ($(this).val() == '') {
+                $(this).removeClass('focus');
+            }
+        });
+    </script>
+</body>
+
+</html>

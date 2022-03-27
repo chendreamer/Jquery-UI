@@ -1,17 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jquery UI</title>
+    <title>UI Design</title>
+    <link rel="stylesheet" href="lib/common/css/normalize.css">
+    <link rel="stylesheet" href="lib/semantic-ui/semantic.min.css">
 </head>
-<body>
-    <h1>jquery UI</h1>
-    <ul>
-        <li><a href="./loginUI.html">一个好看的 login UI</a></li>
+<style>
+    #example .masthead {
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        /* background-color: #000000; */
+        background-position: 50% 50%;
+    }
+
+    #example .masthead.bg7:after {
+        background-image: url(/images/backgrounds/7.jpg);
+    }
+
+    #example .masthead .container {
+        height: 55vh;
+        padding: 15rem 0rem;
+    }
+
+    #example .masthead .container>h1 {
+        color: rgba(255, 255, 255, 1);
+        font-size: 3em;
+    }
+
+    #example .masthead:after {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        content: '';
+        background-size: cover;
+        opacity: 0.45;
+    }
+</style>
+
+<body id="example">
+    <div class="masthead bg7">
+        <div class="ui container">
+            <div class="introduction">
+                <h1 class="ui inverted header">
+                    <span>好看的UI设计</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="" style="text-align: center;font-size: 1.2rem;padding: 10em 0em;">
+        <div class="ui container">
+            <div id="articleList" class="ui middle aligned selection divided list" style="border: 1px solid #8b0c0c;">
+            </div>
+        </div>
+    </div>
 
 
-    </ul>
+    <script src="lib/common/js/jquery-3.6.min.js"></script>
+    <script src="lib/semantic-ui/semantic.min.js"></script>
+    <script>
+        let ListHtml = '';
+
+        //文章在此处配置
+        let ListArray = [
+            { 'title': '一款好看的登录界面', 'src': '/demo/loginUI.html' },
+
+        ];
+
+
+        for (const item of ListArray) {
+            ListHtml += `
+            <div class="item">
+                    <div class="content">
+                        <div class="header">
+                            <a href="${item.src}">${item.title}</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        $('#articleList').html(ListHtml);
+
+    </script>
 </body>
+
 </html>
