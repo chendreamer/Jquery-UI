@@ -7,7 +7,7 @@
 }
 
 #example .masthead.bg7:after {
-    background-image: url(/images/backgrounds/7.jpg);
+    background-image: url(../images/backgrounds/7.jpg);
 }
 
 #example .masthead .container {
