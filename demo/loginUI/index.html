@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>一款好看的登录界面</title>
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
+    <link rel="stylesheet" href="../../lib/common/css/normalize.css">
     <link rel="stylesheet" href="./main.css">
 </head>
 
@@ -16,12 +18,12 @@
 
         <div class="txtb">
             <input type="text">
-            <span data-placeholder="Username"></span>
+            <span data-placeholder="用户名"></span>
         </div>
 
         <div class="txtb">
             <input type="password">
-            <span data-placeholder="Password"></span>
+            <span data-placeholder="密码"></span>
         </div>
 
         <input type="submit" value="login" class="logbtn">
@@ -35,9 +37,9 @@
 
     <script src="../../lib/common/js/jquery-3.6.min.js"></script>
     <script>
-        $('.txtb input').on('focus', function () {
+        $('.txtb input').on('focus', function() {
             $(this).addClass('focus');
-        }).on('blur', function () {
+        }).on('blur', function() {
             if ($(this).val() == '') {
                 $(this).removeClass('focus');
             }

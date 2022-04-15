@@ -31,3 +31,13 @@
     background-size: cover;
     opacity: 0.45;
 }
+
+.article-list-container {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 8em 0em;
+}
+
+#articleList {
+    border: 1px solid #8b0c0c;
+}

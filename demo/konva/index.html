@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>konvajs</title>
+    <meta name="description" content="Konva 是什么?Konva 是一个HTML5 Canvas JavaScript 框架，它通过对 2d context 的扩展实现了在桌面端和移动端的可交互性。Konva 提供了高性能的动画，补间，节点嵌套，布局，滤镜，缓存，事件绑定（桌面/移动端）等等功能。你可以使用 Konva 在舞台上绘制图形，给图形添加事件，移动、缩放和旋转图形并且支持高性能的动画即使包含数千个图形。 工作原理?Kon">
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
+    <link rel="stylesheet" href="../../lib/common/css/normalize.css">
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div id="container">
+        <div class="item">
+            <p>层次关系</p>
+            <p>Stage（舞台）=> layers（图层）=> groups（组）=> shapes（图形）</p>
+
+        </div>
+        <div class="item">
+            <label>case1（可拖动）</label>
+            <div id="case1" data-container></div>
+        </div>
+
+        <div class="item">
+            <label>case2(自定义路径以及多图形)</label>
+            <div id="case2" data-container></div>
+        </div>
+
+        <div class="item">
+            <label>case3（可拖动）</label>
+            <div id="case3" data-container></div>
+        </div>
+
+        <div class="item">
+            <label>case4（导出高清图片）</label>
+            <div id="buttons"><button id="save">Save as image</button></div>
+            <div id="case4" data-container></div>
+        </div>
+
+        <div class="item">
+            <label>case5（动画）</label>
+            <div id="case5" data-container></div>
+        </div>
+
+        <div class="item">
+            <label>case6（动画）</label>
+            <div id="case6" data-container></div>
+        </div>
+
+        <div class="item">
+            <label>case7（多图形使用cache,fps提升明显）</label>
+            <div id="case7" data-container></div>
+        </div>
+
+
+    </div>
+
+
+
+    <script src="../../lib/common/js/jquery-3.6.min.js"></script>
+    <script src="./konva.js"></script>
+    <script>
+        let stageWidth = 300,
+            stageHeight = 300;
+
+        //case1
+        (function() {
+            // first we need to create a stage
+            var stage = new Konva.Stage({
+                container: 'case1', // id of container <div>
+                width: stageWidth,
+                height: stageHeight
+            });
+
+            // then create layer
+            var layer = new Konva.Layer();
+
+            // create our shape
+            var circle = new Konva.Circle({
+                x: stage.width() / 2,
+                y: stage.height() / 2,
+                radius: 70,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 4
+            });
+
+            circle.draggable('true');
+            circle.on('mouseout touchend', function() {
+                //console.log('user input');
+            });
+
+            circle.on('xChange', function() {
+                //console.log('position change');
+            });
+
+            circle.on('dragend', function() {
+                //console.log('drag stopped');
+            });
+
+            // add the shape to the layer
+            layer.add(circle);
+
+            // add the layer to the stage
+            stage.add(layer);
+
+            // draw the image
+            layer.draw();
+
+        })();
+
+
+        //case2
+        (function() {
+            var stage = new Konva.Stage({
+                container: 'case2', // id of container <div>
+                width: stageWidth,
+                height: stageHeight
+            });
+            var layer = new Konva.Layer();
+            //var layer1 = new Konva.Layer();
+
+            var triangle = new Konva.Shape({
+                sceneFunc: function(context) {
+                    context.beginPath();
+                    context.moveTo(20, 50);
+                    context.lineTo(220, 80);
+                    context.quadraticCurveTo(150, 100, 260, 170);
+                    context.closePath();
+
+                    // special Konva.js method
+                    context.fillStrokeShape(this);
+                },
+                fill: '#00D2FF',
+                stroke: 'black',
+                strokeWidth: 4
+            });
+
+            var circle = new Konva.Circle({
+                x: stage.width() / 2,
+                y: stage.height() / 2,
+                radius: 70,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 4
+            });
+
+            circle.draggable('true');
+
+
+            layer.add(circle);
+            layer.add(triangle);
+            stage.add(layer);
+            layer.draw();
+        })();
+
+        //case3
+        (function() {
+            var stage = new Konva.Stage({
+                container: 'case3', // id of container <div>
+                width: stageWidth,
+                height: stageHeight
+            });
+            var layer = new Konva.Layer();
+
+            var pentagon = new Konva.RegularPolygon({
+                x: stage.width() / 2,
+                y: stage.height() / 2,
+                sides: 5,
+                radius: 70,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 4,
+                shadowOffsetX: 20,
+                shadowOffsetY: 25,
+                shadowBlur: 40,
+                opacity: 0.5
+            });
+            pentagon.draggable('true');
+
+            layer.add(pentagon);
+            stage.add(layer);
+            layer.draw();
+        })();
+
+
+        //case4
+        (function() {
+            var stage = new Konva.Stage({
+                container: 'case4', // id of container <div>
+                width: stageWidth,
+                height: stageHeight
+            });
+            var layer = new Konva.Layer();
+
+            var pentagon = new Konva.RegularPolygon({
+                x: stage.width() / 2,
+                y: stage.height() / 2,
+                sides: 5,
+                radius: 70,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 4,
+                shadowOffsetX: 20,
+                shadowOffsetY: 25,
+                shadowBlur: 40,
+                opacity: 0.5
+            })
+
+            //滤镜
+            // pentagon.filters([Konva.Filters.Posterize]);
+            // pentagon.levels(0.8);
+
+            layer.add(pentagon);
+            stage.add(layer);
+            layer.draw();
+
+            // function from https://stackoverflow.com/a/15832662/512042
+            function downloadURI(uri, name) {
+                var link = document.createElement('a');
+                link.download = name;
+                link.href = uri;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                delete link;
+            };
+
+            document.getElementById('save').addEventListener(
+                'click',
+                function() {
+                    var dataURL = stage.toDataURL({
+                        pixelRatio: 3
+                    });
+                    downloadURI(dataURL, 'stage.png');
+                },
+                false
+            );
+        })();
+
+        //case5
+        (function() {
+            var stage = new Konva.Stage({
+                container: 'case5',
+                width: stageWidth,
+                height: stageHeight
+            });
+
+            var layer = new Konva.Layer();
+
+            var hexagon = new Konva.RegularPolygon({
+                x: stage.width() / 2,
+                y: stage.height() / 2,
+                sides: 6,
+                radius: 20,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 4
+            });
+
+            layer.add(hexagon);
+            stage.add(layer);
+
+            var amplitude = 100;
+            var period = 2000;
+            // in ms
+            var centerX = stage.width() / 2;
+
+            var anim = new Konva.Animation(function(frame) {
+                hexagon.x(
+                    amplitude * Math.sin((frame.time * 2 * Math.PI) / period) + centerX
+                );
+            }, layer);
+
+            anim.start();
+        })();
+
+        (function() {
+            var stage = new Konva.Stage({
+                container: 'case6',
+                width: stageWidth,
+                height: stageHeight
+            });
+
+            var layer = new Konva.Layer();
+
+            var rect = new Konva.Rect({
+                x: 50,
+                y: 20,
+                width: 100,
+                height: 50,
+                fill: 'green',
+                stroke: 'black',
+                strokeWidth: 2,
+                opacity: 0.2
+            });
+
+            layer.add(rect);
+            stage.add(layer);
+
+            // the tween has to be created after the node has been added to the layer
+            var tween = new Konva.Tween({
+                node: rect,
+                duration: 1,
+                x: 140,
+                y: 90,
+                fill: 'red',
+                rotation: Math.PI * 2,
+                opacity: 1,
+                strokeWidth: 6,
+                scaleX: 1.5
+            });
+
+            // start tween after 2 seconds
+            setInterval(function() {
+                tween.play();
+                setTimeout(function() {
+                    tween.reverse();
+                }, 1000);
+
+            }, 2000);
+        })();
+
+        //case7
+        (function() {
+            var stage = new Konva.Stage({
+                container: 'case7',
+                width: stageWidth,
+                height: stageHeight
+            });
+
+            var layer = new Konva.Layer();
+
+            var star = new Konva.Star({
+                innerRadius: 20,
+                outerRadius: 50,
+                fill: 'red',
+                stroke: 'black',
+                strokeWidth: 4,
+                numPoints: 5,
+                x: 60,
+                y: 60,
+                draggable: true,
+                shadowOffset: {
+                    x: 4,
+                    y: 4
+                },
+                shadowColor: 'black',
+                shadowBlur: 5,
+                shadowOpacity: 0.5
+            });
+
+            layer.add(star);
+            stage.add(layer);
+            star.cache();
+
+            var clone;
+            for (var n = 0; n < 100; n++) {
+                clone = star.clone({
+                    x: Math.random() * stage.width(),
+                    y: Math.random() * stage.height()
+                });
+                clone.cache();
+                layer.add(clone);
+            }
+
+            layer.draw();
+        })();
+    </script>
+</body>
+
+</html>

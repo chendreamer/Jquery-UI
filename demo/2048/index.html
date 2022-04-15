@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
+    <link rel="stylesheet" href="../../lib/common/css/normalize.css">
+    <!-- <link rel="stylesheet" href="./main.css"> -->
+    <style>
+         :root {
+            --color-num-0: #EFE5DA;
+            --color-num-2: #EFE5DA;
+            --color-num-4: #EDDCBE;
+            --color-num-8: #F3B179;
+            --color-num-16: #F27F3F;
+            --color-num-32: #F57657;
+            --color-num-64: #F4522C;
+            --color-num-128: #EBCE72;
+            --color-num-256: #EAD062;
+            --color-num-512: #EDC42D;
+            --color-num-1024: #F2C342;
+            --color-num-2048: #EDC331;
+        }
+        
+        .num-0 {
+            background-color: var(--color-num-0);
+        }
+        
+        .num-2,
+        .num-4 {
+            color: #948175;
+        }
+        
+        .num-8,
+        .num-16,
+        .num-32,
+        .num-64,
+        .num-128,
+        .num-256,
+        .num-512,
+        .num-1024,
+        .num-2048 {
+            color: #ffffff;
+        }
+        
+        .num-2 {
+            background-color: var(--color-num-2);
+        }
+        
+        .num-4 {
+            background-color: var(--color-num-4);
+        }
+        
+        .num-8 {
+            background-color: var(--color-num-8);
+        }
+        
+        .num-16 {
+            background-color: var(--color-num-16);
+        }
+        
+        .num-32 {
+            background-color: var(--color-num-32);
+        }
+        
+        .num-64 {
+            background-color: var(--color-num-64);
+        }
+        
+        .num-128 {
+            background-color: var(--color-num-128);
+        }
+        
+        .num-256 {
+            background-color: var(--color-num-256);
+        }
+        
+        .num-512 {
+            background-color: var(--color-num-512);
+        }
+        
+        .num-1024 {
+            background-color: var(--color-num-1024);
+        }
+        
+        .num-2048 {
+            background-color: var(--color-num-2048);
+        }
+        
+        .page {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #chessboard {
+            margin: 0 auto;
+            margin-top: 60px;
+            width: 280px;
+            background-color: #C1AF9E;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+        /* #chessboard>.row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        } */
+        
+        #chessboard>.row>div {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 20px;
+            border-radius: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        #chessboard>.row>div:last-child {
+            margin-right: 0px;
+        }
+        
+        #chessboard>.row:last-child>div {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div id="chessboard">
+            <div class="row">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="row">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="row">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="row">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../lib/common/js/jquery-3.6.min.js"></script>
+    <script>
+        let chessboardStore = [];
+
+        // [
+        //     ['0,0', '0,1', '0,2', '0,3'],
+        //     ['1,0', '1,1', '1,2', '1,3'],
+        //     ['2,0', '2,1', '2,2', '2,3'],
+        //     ['3,0', '3,1', '3,2', '3,3']
+        // ];
+
+        //棋盘初始化
+        function chessboardStoreInit() {
+            chessboardStore = [];
+            for (let i = 0; i < 4; i++) {
+                chessboardStore.push([]);
+                for (let j = 0; j < 4; j++) {
+                    chessboardStore[i].push(null);
+                }
+            }
+        }
+
+        //生成随机数
+        function randomGenerateCoordinate() {
+            return Math.floor(parseInt(Math.random() * 100)); // [0,1)
+        }
+
+        //渲染棋盘
+        function renderChessboard() {
+            let $chessboard = $('#chessboard');
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    let _text = '';
+                    _text = chessboardStore[i][j] === null ? '&nbsp;' : chessboardStore[i][j];
+                    $el = $chessboard.find('.row').eq(i).find('div').eq(j);
+                    $el.html(_text);
+                    $el.removeAttr('class');
+                    if (_text === '&nbsp;') {
+                        $el.attr('class', 'num-0');
+                    } else {
+                        $el.attr('class', 'num-' + parseInt(_text));
+                    }
+
+                }
+            }
+        }
+
+        //新增一个棋子
+        function newChess() {
+            let currentChessboardStore = [];
+            //将空位置的坐标存入数组中
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    if (chessboardStore[i][j] === null) currentChessboardStore.push(i * 4 + j);
+                }
+            }
+            // console.log('=================================');
+            // console.log('=================================');
+            // console.log(currentChessboardStore);
+            let currentChessboardStoreLength = currentChessboardStore.length;
+            if (currentChessboardStoreLength == 0) {
+                return 'chessboard full';
+            }
+            let randomNumber = randomGenerateCoordinate();
+            //console.log('randomNumber:  ' + randomNumber);
+            let randomIndex;
+            for (let i = 1; i <= currentChessboardStoreLength; i++) {
+                // console.log(randomNumber);
+                // console.log(i);
+                // console.log(currentChessboardStoreLength);
+                // console.log(randomNumber < i * (100 / currentChessboardStoreLength));
+                if (i == currentChessboardStoreLength) {
+                    randomIndex = currentChessboardStore[i - 1]; //取前一位，i从1开始循环的
+                    break;
+                } else if (randomNumber < i * (100 / currentChessboardStoreLength)) {
+                    randomIndex = currentChessboardStore[i - 1];
+                    break;
+                }
+            }
+            //console.log('randomIndex:  ' + randomIndex);
+
+            let _x = Math.floor(randomIndex / 4);
+            let _y = randomIndex % 4;
+            //console.log(`[${_x},${_y}]`);
+
+            chessboardStore[_x][_y] = randomNumber > 50 ? '2' : '4';
+            renderChessboard();
+            return 'ok';
+        }
+
+        function matchDirection(keyCode) {
+            let upKeyCode = 38,
+                downKeyCode = 40,
+                leftKeyCode = 37,
+                rightKeyCode = 39;
+
+            switch (keyCode) {
+                case upKeyCode:
+                    return 'up';
+                    break;
+                case downKeyCode:
+                    return 'down';
+                    break;
+                case leftKeyCode:
+                    return 'left';
+                    break;
+                case rightKeyCode:
+                    return 'right';
+                    break;
+            }
+        }
+
+        function chessMerge(direction) {
+            if (direction == 'down') {
+                let tempArray = []; //列从下到上
+                for (let i = 0; i < 4; i++) {
+                    tempArray.push([]);
+                    for (let j = 0; j < 4; j++) {
+                        if (chessboardStore[3 - j][i] !== null) {
+                            tempArray[i].push(chessboardStore[3 - j][i]);
+                        }
+                    }
+                }
+
+                //重置棋盘数据
+                for (let i = 0; i < 4; i++) {
+                    let mergedArray = arrayMerge(tempArray[i]);
+                    //console.log(mergedArray);
+                    for (let j = 0; j < 4; j++) {
+                        if (j < mergedArray.length) {
+                            chessboardStore[3 - j][i] = mergedArray[j];
+                        } else {
+                            chessboardStore[3 - j][i] = null;
+                        }
+                    }
+                }
+            } else if (direction == 'up') {
+                let tempArray = []; //列从上到下
+                for (let i = 0; i < 4; i++) {
+                    tempArray.push([]);
+                    for (let j = 0; j < 4; j++) {
+                        if (chessboardStore[j][i] !== null) {
+                            tempArray[i].push(chessboardStore[j][i]);
+                        }
+                    }
+                }
+
+                //重置棋盘数据
+                for (let i = 0; i < 4; i++) {
+                    let mergedArray = arrayMerge(tempArray[i]);
+                    //console.log(mergedArray);
+                    for (let j = 0; j < 4; j++) {
+                        if (j < mergedArray.length) {
+                            chessboardStore[j][i] = mergedArray[j];
+                        } else {
+                            chessboardStore[j][i] = null;
+                        }
+                    }
+                }
+            } else if (direction == 'left') {
+                let tempArray = []; //行从左到右
+                for (let i = 0; i < 4; i++) {
+                    tempArray.push([]);
+                    for (let j = 0; j < 4; j++) {
+                        if (chessboardStore[i][j] !== null) {
+                            tempArray[i].push(chessboardStore[i][j]);
+                        }
+                    }
+                }
+
+                //重置棋盘数据
+                for (let i = 0; i < 4; i++) {
+                    let mergedArray = arrayMerge(tempArray[i]);
+                    //console.log(mergedArray);
+                    for (let j = 0; j < 4; j++) {
+                        if (j < mergedArray.length) {
+                            chessboardStore[i][j] = mergedArray[j];
+                        } else {
+                            chessboardStore[i][j] = null;
+                        }
+                    }
+                }
+            } else if (direction == 'right') {
+                // [
+                //     ['0,0', '0,1', '0,2', '0,3'],
+                //     ['1,0', '1,1', '1,2', '1,3'],
+                //     ['2,0', '2,1', '2,2', '2,3'],
+                //     ['3,0', '3,1', '3,2', '3,3']
+                // ];
+
+                let tempArray = []; //行从右到左
+                for (let i = 0; i < 4; i++) {
+                    tempArray.push([]);
+                    for (let j = 0; j < 4; j++) {
+                        if (chessboardStore[i][3 - j] !== null) {
+                            tempArray[i].push(chessboardStore[i][3 - j]);
+                        }
+                    }
+                }
+
+                //重置棋盘数据
+                for (let i = 0; i < 4; i++) {
+                    let mergedArray = arrayMerge(tempArray[i]);
+                    //console.log(mergedArray);
+                    for (let j = 0; j < 4; j++) {
+                        if (j < mergedArray.length) {
+                            chessboardStore[i][3 - j] = mergedArray[j];
+                        } else {
+                            chessboardStore[i][3 - j] = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        function getScore() {
+            let score = 0;
+            for (let i = 0; i < chessboardStore.length; i++) {
+                for (let j = 0; j < chessboardStore[i].length; j++) {
+                    score += parseInt(chessboardStore[i][j]);
+                }
+            }
+            return score;
+        }
+
+        //2 16 8 8
+        //合并棋子
+        function arrayMerge(array) {
+            if (array.length == 0 || array.length == 1) return array;
+            let hadMerged = false;
+            for (let i = 0; i < array.length - 1; i++) {
+                if (array[i] == array[i + 1] && array[i] !== null) {
+                    array[i] = parseInt(array[i + 1]) + parseInt(array[i]);
+                    hadMerged = true;
+                    array.splice(i + 1, 1);
+                    i--;
+                }
+            }
+
+            if (hadMerged) {
+                arrayMerge(array);
+            }
+            return array;
+        }
+
+        //核心控制功能
+        function core(direction) {
+            chessMerge(direction);
+
+            let newChessResult = newChess();
+            if (newChessResult == 'chessboard full') {
+                alert('游戏结束！得分:' + getScore());
+                gameStart();
+            }
+        }
+
+        //捕捉键盘事件
+        $(document).keydown(function(event) {
+            // console.log(event.keyCode);
+            let direction = matchDirection(event.keyCode);
+            core(direction);
+        });
+
+        function gameStart() {
+            chessboardStoreInit();
+            renderChessboard();
+            newChess();
+        }
+
+
+        //移动端处理
+        (function() {
+            //滑动处理
+            let startX, startY, moveEndX, moveEndY, X, Y, moveDirection;
+
+            $(document).on('touchstart', function(e) {
+                startX = e.touches[0].pageX;
+                startY = e.touches[0].pageY;
+            });
+
+            $(document).on('touchmove', function(e) {
+                moveEndX = e.changedTouches[0].pageX;
+                moveEndY = e.changedTouches[0].pageY;
+                X = moveEndX - startX;
+                Y = moveEndY - startY;
+                if (X > 0 && Math.abs(X) > Math.abs(Y)) {
+                    moveDirection = 'right'
+                } else if (X < 0 && Math.abs(X) > Math.abs(Y)) {
+                    moveDirection = 'left'
+                } else if (Y > 0 && Math.abs(Y) > Math.abs(X)) {
+                    moveDirection = 'down'
+                } else if (Y < 0 && Math.abs(Y) > Math.abs(X)) {
+                    moveDirection = 'up'
+                } else {
+                    moveDirection = null;
+                }
+            })
+
+            $(document).on('touchend', function() {
+                if (moveDirection == null) {
+                    return;
+                } else {
+                    core(moveDirection);
+                }
+            });
+        })();
+
+
+        gameStart();
+    </script>
+</body>
+
+</html>

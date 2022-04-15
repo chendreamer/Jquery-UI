@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UI Design</title>
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
     <link rel="stylesheet" href="./lib/common/css/normalize.css">
     <link rel="stylesheet" href="./lib/semantic-ui/semantic.min.css">
     <link rel="stylesheet" href="./css/index.css">
@@ -22,9 +23,9 @@
         </div>
     </div>
 
-    <div class="" style="text-align: center;font-size: 1.2rem;padding: 10em 0em;">
+    <div class="article-list-container">
         <div class="ui container">
-            <div id="articleList" class="ui middle aligned selection divided list" style="border: 1px solid #8b0c0c;">
+            <div id="articleList" class="ui middle aligned selection divided list">
             </div>
         </div>
     </div>
@@ -36,10 +37,19 @@
         let ListHtml = '';
 
         //文章在此处配置
-        let ListArray = [
-            { 'title': '一款好看的登录界面', 'src': './demo/loginUI/loginUI.html' },
-
-        ];
+        let ListArray = [{
+            'title': '一款好看的登录界面',
+            'src': './demo/loginUI/index.html'
+        }, {
+            'title': '黑暗模式demo',
+            'src': './demo/darkTheme/index.html'
+        }, {
+            'title': 'konva demo',
+            'src': './demo/konva/index.html'
+        }, {
+            'title': '2048小游戏',
+            'src': './demo/2048/index.html'
+        }, ];
 
 
         for (const item of ListArray) {
@@ -54,7 +64,6 @@
             `;
         }
         $('#articleList').html(ListHtml);
-
     </script>
 </body>
 

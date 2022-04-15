@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" theme="theme-light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黑暗模式demo</title>
+
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
+    <link rel="stylesheet" href="../../lib/common/css/normalize.css">
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div class="content">
+        <label>主题</label>
+        <select id="themeSelecter">
+             <option value="0">白天模式</option>
+             <option value="1">黑暗模式</option>
+         </select>
+
+        <div class="area" style-video-personal>
+            <p>video personal</p>
+        </div>
+
+        <div class="area" style-saloon>
+            <p>saloon</p>
+        </div>
+
+        <div class="area" style-saloon>
+            <p>totem</p>
+        </div>
+    </div>
+
+
+    <script src="../../lib/common/js/jquery-3.6.min.js"></script>
+    <script>
+        $('#themeSelecter').on('change', function() {
+            if ($(this).val() === '0') {
+                $('html').attr('theme', 'theme-light');
+            } else {
+                $('html').attr('theme', 'theme-dark');
+            }
+        })
+    </script>
+</body>
+
+</html>

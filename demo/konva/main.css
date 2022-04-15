@@ -1,0 +1,19 @@
+#container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#container>.item {
+    margin-bottom: 50px;
+}
+
+#container>.item>label {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+[data-container] {
+    border: #cccccc 1px dashed;
+}
