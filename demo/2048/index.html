@@ -165,7 +165,6 @@
     <script src="../../lib/common/js/jquery-3.6.min.js"></script>
     <script>
         let chessboardStore = [];
-
         // [
         //     ['0,0', '0,1', '0,2', '0,3'],
         //     ['1,0', '1,1', '1,2', '1,3'],
@@ -204,7 +203,6 @@
                     } else {
                         $el.attr('class', 'num-' + parseInt(_text));
                     }
-
                 }
             }
         }
@@ -218,21 +216,14 @@
                     if (chessboardStore[i][j] === null) currentChessboardStore.push(i * 4 + j);
                 }
             }
-            // console.log('=================================');
-            // console.log('=================================');
-            // console.log(currentChessboardStore);
             let currentChessboardStoreLength = currentChessboardStore.length;
             if (currentChessboardStoreLength == 0) {
+                //没有空位置
                 return 'chessboard full';
             }
             let randomNumber = randomGenerateCoordinate();
-            //console.log('randomNumber:  ' + randomNumber);
             let randomIndex;
             for (let i = 1; i <= currentChessboardStoreLength; i++) {
-                // console.log(randomNumber);
-                // console.log(i);
-                // console.log(currentChessboardStoreLength);
-                // console.log(randomNumber < i * (100 / currentChessboardStoreLength));
                 if (i == currentChessboardStoreLength) {
                     randomIndex = currentChessboardStore[i - 1]; //取前一位，i从1开始循环的
                     break;
@@ -241,12 +232,10 @@
                     break;
                 }
             }
-            //console.log('randomIndex:  ' + randomIndex);
 
             let _x = Math.floor(randomIndex / 4);
             let _y = randomIndex % 4;
             //console.log(`[${_x},${_y}]`);
-
             chessboardStore[_x][_y] = randomNumber > 50 ? '2' : '4';
             renderChessboard();
             return 'ok';
@@ -345,13 +334,6 @@
                     }
                 }
             } else if (direction == 'right') {
-                // [
-                //     ['0,0', '0,1', '0,2', '0,3'],
-                //     ['1,0', '1,1', '1,2', '1,3'],
-                //     ['2,0', '2,1', '2,2', '2,3'],
-                //     ['3,0', '3,1', '3,2', '3,3']
-                // ];
-
                 let tempArray = []; //行从右到左
                 for (let i = 0; i < 4; i++) {
                     tempArray.push([]);
@@ -377,17 +359,6 @@
             }
         }
 
-        function getScore() {
-            let score = 0;
-            for (let i = 0; i < chessboardStore.length; i++) {
-                for (let j = 0; j < chessboardStore[i].length; j++) {
-                    score += parseInt(chessboardStore[i][j]);
-                }
-            }
-            return score;
-        }
-
-        //2 16 8 8
         //合并棋子
         function arrayMerge(array) {
             if (array.length == 0 || array.length == 1) return array;
@@ -407,15 +378,15 @@
             return array;
         }
 
-        //核心控制功能
-        function core(direction) {
-            chessMerge(direction);
-
-            let newChessResult = newChess();
-            if (newChessResult == 'chessboard full') {
-                alert('游戏结束！得分:' + getScore());
-                gameStart();
+        //计算分数
+        function getScore() {
+            let score = 0;
+            for (let i = 0; i < chessboardStore.length; i++) {
+                for (let j = 0; j < chessboardStore[i].length; j++) {
+                    score += parseInt(chessboardStore[i][j]);
+                }
             }
+            return score;
         }
 
         //捕捉键盘事件
@@ -424,13 +395,6 @@
             let direction = matchDirection(event.keyCode);
             core(direction);
         });
-
-        function gameStart() {
-            chessboardStoreInit();
-            renderChessboard();
-            newChess();
-        }
-
 
         //移动端处理
         (function() {
@@ -447,7 +411,8 @@
                 moveEndY = e.changedTouches[0].pageY;
                 X = moveEndX - startX;
                 Y = moveEndY - startY;
-                if (X > 0 && Math.abs(X) > Math.abs(Y)) {
+                //正方向以及向左向右45度内都算此方向
+                if (X > 0 && Math.abs(X) > Math.abs(Y)) { //X>0为向右，X增长大于Y表示45度之内
                     moveDirection = 'right'
                 } else if (X < 0 && Math.abs(X) > Math.abs(Y)) {
                     moveDirection = 'left'
@@ -469,6 +434,22 @@
             });
         })();
 
+        //核心控制功能
+        function core(direction) {
+            chessMerge(direction);
+
+            let newChessResult = newChess();
+            if (newChessResult == 'chessboard full') {
+                alert('游戏结束！得分:' + getScore());
+                gameStart();
+            }
+        }
+
+        function gameStart() {
+            chessboardStoreInit();
+            renderChessboard();
+            newChess();
+        }
 
         gameStart();
     </script>
