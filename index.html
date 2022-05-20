@@ -10,32 +10,19 @@
     <link rel="stylesheet" href="./lib/common/css/normalize.css">
     <link rel="stylesheet" href="./lib/semantic-ui/semantic.min.css">
     <link rel="stylesheet" href="./css/index.css">
+    <script src="./lib/react/react.production.min.js"></script>
+    <script src="./lib/react/react-dom.production.min.js"></script>
+    <script src="./lib/react/babel.min.js"></script>
 </head>
 
-<body id="example">
-    <div class="masthead bg7">
-        <div class="ui container">
-            <div class="introduction">
-                <h1 class="ui inverted header">
-                    <span>好看的UI设计</span>
-                </h1>
-            </div>
-        </div>
-    </div>
+<body>
 
-    <div class="article-list-container">
-        <div class="ui container">
-            <div id="articleList" class="ui middle aligned selection divided list">
-            </div>
-        </div>
-    </div>
-
+    <div id="root"></div>
 
     <script src="./lib/common/js/jquery-3.6.min.js"></script>
     <script src="./lib/semantic-ui/semantic.min.js"></script>
-    <script>
-        let ListHtml = '';
 
+    <script type="text/babel">
         //文章在此处配置
         let ListArray = [{
             'title': '一款好看的登录界面',
@@ -49,21 +36,73 @@
         }, {
             'title': '2048小游戏',
             'src': './demo/2048/index.html'
-        }, ];
+        },];
 
+        //小UI在此处配置
+        let UIArray = [{
+            'title': 'antd 缎带型的徽标',
+            'src': './demo/antd/ribbon.html'
+        }];
 
-        for (const item of ListArray) {
-            ListHtml += `
-            <div class="item">
-                    <div class="content">
-                        <div class="header">
-                            <a href="${item.src}">${item.title}</a>
+        function Header() {
+            return (
+                <div class="masthead bg7">
+                    <div class="ui container">
+                        <div class="introduction">
+                            <h1 class="ui inverted header">
+                                <span>好看的UI设计</span>
+                            </h1>
                         </div>
                     </div>
                 </div>
-            `;
+            )
         }
-        $('#articleList').html(ListHtml);
+
+        function ArticleTable(props) {
+            return (
+                <table class="ui celled table">
+                    <thead>
+                        <tr class="center aligned">
+                            <th>{props.header}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            props.list.map((item) => <Link {...item} key={item.title} />)
+                        }
+                    </tbody>
+                </table>
+            )
+        }
+
+        function Link(props) {
+            return (<tr class="center aligned">
+                <td>
+                    <a href={props.src}>{props.title}</a>
+                </td>
+            </tr>)
+        }
+
+        function App() {
+            return (
+                <div id="example">
+                    <Header />
+                    <div class="article-list-container">
+                        <div class="ui container">
+                            <div>
+                                <ArticleTable list={ListArray} header="文章" />
+                            </div>
+                            <div>
+                                <ArticleTable list={UIArray} header="小UI" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
     </script>
 </body>
 

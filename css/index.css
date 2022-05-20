@@ -35,9 +35,18 @@
 .article-list-container {
     text-align: center;
     font-size: 1.2rem;
-    padding: 8em 0em;
+    padding: 6em 0em;
 }
 
 #articleList {
     border: 1px solid #8b0c0c;
+}
+
+.article-list-container>.container {
+    display: flex;
+    justify-content: space-around;
+}
+.article-list-container>.container>div{
+    flex: 1;
+    padding: 0 1.5em;
 }
