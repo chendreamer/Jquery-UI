@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
+    <link rel="stylesheet" href="../../lib/common/css/normalize.css">
+    <!-- <link rel="stylesheet" href="./main.css"> -->
+</head>
+<style>
+    .father,.child {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .father>span {
+        display: inline-block;
+    }
+
+    .second {
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .first,
+    .third {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+</style>
+
+<body>
+
+    <div class="container" style="width: 1000px;">
+
+        <div class="father">
+
+            <span class="first" style="background-color:#8cbcec">1111</span>
+            <span class="second" style="background-color:#bcfcdc;">
+
+                <div class="child">
+
+                    <span class="first" style="background-color:#435465">55555</span>
+                    <span class="second" style="background-color:#bcfcdc;">77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777 77777</span>
+                    <span class="third" style="background-color:#773842">6666666</span>
+                
+                </div>
+
+            </span>
+            <span class="third" style="background-color:#ffe1b5">3333333</span>
+
+        </div>
+    </div>
+    <div style="width: 1000px;height:30px;background-color: darkcyan;">
+
+    </div>
+
+    <script src="../../lib/common/js/jquery-3.6.min.js"></script>
+    <script>
+    </script>
+</body>
+
+</html>
