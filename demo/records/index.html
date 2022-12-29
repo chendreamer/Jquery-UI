@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日常阅读记录</title>
+    <link rel="shortcut icon" href="../../images/ico/owl.png">
+    <link rel="stylesheet" href="../../lib/common/css/normalize.css">
+</head>
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    table {
+        caption-side: bottom;
+        border-collapse: collapse;
+        text-align: center;
+        width: 50%;
+        margin: 50px auto;
+    }
+
+    table>thead>tr>th {
+        border-bottom: 3px solid #000;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    table>tbody>tr>td {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    table>tbody>tr>td:first-child {
+        min-width: 150px;
+    }
+
+    table>tbody>tr>td br {
+        content: " ";
+        display: block;
+        margin: 6px 0;
+    }
+
+    table>tbody>tr:not(:last-child)>td {
+        border-bottom: 1px solid #ccc;
+    }
+
+    @media screen and (max-width: 1200px) {
+        table {
+            width: 60%;
+        }
+    }
+
+    @media screen and (max-width: 998px) {
+        table {
+            width: 70%;
+        }
+    }
+</style>
+
+<body>
+    <div>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>名称</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    <td>1</td>
+                    <td>Item 1</td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../../lib/common/js/jquery-3.6.min.js"></script>
+    <script>
+        function initTable(historyArray) {
+            historyArray.forEach(function (item) {
+                let str = `
+                        <tr>
+                            <td>${item.date}</td>
+                            <td>${item.history.map((innerItem) => { return `<p><a href="${innerItem.url}" target="_blank">${innerItem.item}</a></p>` }).join('')}</td>
+                        </tr>
+                    `;
+                $('#table tbody').append(str);
+            });
+        }
+
+        $.getJSON("./history.json", function (res) {
+            initTable(res);
+        });
+
+    </script>
+</body>
+
+</html>

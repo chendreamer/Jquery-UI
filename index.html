@@ -19,35 +19,45 @@
 
     <div id="root"></div>
 
-    <!-- <script src="./lib/common/js/jquery-3.6.min.js"></script> -->
+    <!-- semantic需要jQuery -->
+    <script src="./lib/common/js/jquery-3.6.min.js"></script>
     <script src="./lib/semantic-ui/semantic.min.js"></script>
 
     <script type="text/babel">
         //文章在此处配置
         let ListArray = [{
-            'title': '一款好看的登录界面',
-            'src': './demo/loginUI/index.html'
-        }, {
-            'title': '黑暗模式demo',
-            'src': './demo/darkTheme/index.html'
+            'title': '日常阅读记录',
+            'src': './demo/records/index.html'
         }, {
             'title': 'konva demo',
             'src': './demo/konva/index.html'
         }, {
             'title': '2048小游戏',
             'src': './demo/2048/index.html'
-        },{
+        }, {
             'title': 'Git&Repo 命令大全',
             'src': 'http://t.zoukankan.com/jiangzhaowei-p-5226995.html'
         }];
 
         //小UI在此处配置
         let UIArray = [{
+            'title': '一款好看的登录界面',
+            'src': './demo/loginUI/index.html'
+        }, {
+            'title': '黑暗模式demo',
+            'src': './demo/darkTheme/index.html'
+        }, {
             'title': 'antd 缎带型的徽标',
             'src': './demo/antd/ribbon.html'
-        },{
+        }, {
             'title': 'flex布局',
             'src': './demo/flex/flex.html'
+        }, {
+            'title': 'epub电子书',
+            'src': './demo/epub/index.html'
+        }, {
+            'title': '用prism制作代码高亮',
+            'src': './demo/prismDemo/index.html'
         }];
 
         function Header() {
