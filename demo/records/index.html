@@ -33,6 +33,11 @@
         padding-bottom: 8px;
     }
 
+    table>tbody>tr>td>div {
+        margin-top: 23px;
+        margin-bottom: 23px;
+    }
+
     table>tbody>tr>td:first-child {
         min-width: 150px;
     }
@@ -41,6 +46,31 @@
         content: " ";
         display: block;
         margin: 6px 0;
+    }
+
+    #table a {
+        position: relative;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+
+    #table a .label {
+        position: absolute;
+        top: 5px;
+        left: calc(100% + 5px);
+    }
+
+    .ui.teal.label {
+        font-size: 12px;
+        padding: 3px 6px;
+        display: inline-block;
+        vertical-align: baseline;
+        background-color: #21ba45 !important;
+        border-color: #21ba45 !important;
+        border-radius: 4px;
+        color: #fff !important;
+        white-space: nowrap;
     }
 
     table>tbody>tr:not(:last-child)>td {
@@ -85,7 +115,9 @@
                 let str = `
                         <tr>
                             <td>${item.date}</td>
-                            <td>${item.history.map((innerItem) => { return `<p><a href="${innerItem.url}" target="_blank">${innerItem.item}</a></p>` }).join('')}</td>
+                            <td>
+                                ${item.history.map((innerItem) => { return `<div><a href="${innerItem.url}" target="_blank">${innerItem.item}<div class="floating ui teal label">${innerItem.from}</div></a></div>` }).join('')}
+                            </td>
                         </tr>
                     `;
                 $('#table tbody').append(str);
