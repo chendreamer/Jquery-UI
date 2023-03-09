@@ -14,12 +14,18 @@
         text-decoration: none;
     }
 
+    #recordTable {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     table {
         caption-side: bottom;
         border-collapse: collapse;
         text-align: center;
         width: 50%;
-        margin: 50px auto;
+        margin: 50px 0;
     }
 
     table>thead>tr>th {
@@ -77,6 +83,22 @@
         border-bottom: 1px solid #ccc;
     }
 
+    input {
+        width: 30%;
+        min-width: 250px;
+        margin-top: 50px;
+        text-align: center;
+        outline: 0;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        line-height: 1.2142em;
+        font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 0.67861em 1em;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, .15);
+        color: rgba(0, 0, 0, .8);
+        border-radius: 0.2857rem;
+    }
+
     @media screen and (max-width: 1200px) {
         table {
             width: 60%;
@@ -85,13 +107,14 @@
 
     @media screen and (max-width: 998px) {
         table {
-            width: 70%;
+            width: 80%;
         }
     }
 </style>
 
 <body>
-    <div>
+    <div id="recordTable">
+        <input type="text" id="filterKey" placeholder="搜索...">
         <table id="table">
             <thead>
                 <tr>
@@ -110,23 +133,66 @@
 
     <script src="../../lib/common/js/jquery-3.6.min.js"></script>
     <script>
-        function initTable(historyArray) {
-            historyArray.forEach(function (item) {
-                let str = `
-                        <tr>
-                            <td>${item.date}</td>
-                            <td>
-                                ${item.history.map((innerItem) => { return `<div><a href="${innerItem.url}" target="_blank">${innerItem.item}<div class="floating ui teal label">${innerItem.from}</div></a></div>` }).join('')}
-                            </td>
-                        </tr>
-                    `;
-                $('#table tbody').append(str);
-            });
-        }
 
-        $.getJSON("./history.json", function (res) {
-            initTable(res);
-        });
+        const recordTable = {
+            historyArray: [],
+            init: function () {
+                $(window).ready(function () {
+                    this.bindEvent();
+                    this.getData();
+                }.bind(this));
+            },
+            getData: function () {
+                $.getJSON("./history.json", function (res) {
+                    this.historyArray = [...res];
+                    this.initTable();
+                }.bind(this));
+            },
+            bindEvent: function () {
+                $(window).keydown(function (event) {
+                    if (event.keyCode === 13) {
+                        this.initTable();
+                    }
+                }.bind(this));
+            },
+            initTable: function () {
+                let that = this;
+                $('#table tbody').html('');
+                const key = $('#filterKey').val().trim().toLowerCase();
+                this.historyArray.forEach(function (item) {
+                    let articleTitle = item.history.map((innerItem) => {
+                        return that.recordItem(innerItem, key);
+                    }).filter((item) => {
+                        return typeof (item) != "undefined"
+                    });
+
+                    if (articleTitle.length !== 0) {
+                        let str = `
+                                    <tr>
+                                        <td>${item.date}</td>
+                                        <td>
+                                            ${articleTitle.join('')}
+                                        </td>
+                                    </tr>
+                                `;
+                        $('#table tbody').append(str);
+                    }
+                });
+            },
+            recordItem: function (innerItem, key) {
+                if (innerItem.item.toLowerCase().indexOf(key) != -1 ||
+                    innerItem.from.toLowerCase().indexOf(key) != -1) {
+                    return `<div>
+                                <a href="${innerItem.url}" target="_blank">
+                                    ${innerItem.item}
+                                    <div class="floating ui teal label">${innerItem.from}</div>
+                                </a>
+                            </div>`
+                }
+            }
+        };
+
+        recordTable.init();
 
     </script>
 </body>
