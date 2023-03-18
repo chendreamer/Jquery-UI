@@ -1,5 +1,20 @@
 [
     {
+        "date": "2023-3-18",
+        "history": [
+            {
+                "item": "BuildAdmin 使用流行技术栈快速创建商业级后台管理系统",
+                "url": "https://wonderful-code.gitee.io/",
+                "from": "gitee"
+            },
+            {
+                "item": "Hammer.js 中文教程",
+                "url": "https://www.jianshu.com/p/0b0b9364f967/",
+                "from": "简书"
+            }
+        ]
+    },
+    {
         "date": "2023-3-13",
         "history": [
             {
